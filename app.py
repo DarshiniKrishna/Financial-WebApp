@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,jsonify
 import google.generativeai as palm
 import os
 
@@ -32,6 +32,16 @@ def makersuite_gen():
     q = request.form.get("q")
     r = palm.chat(**model, messages=q)
     return(render_template("makersuite_gen_reply.html",r=r.last))
+
+@app.route("/makersuite_gen", methods=["GET","POST"])
+def makersuite_gen():
+    try:
+        q = request.form.get("q")
+        r = palm.chat(**model, messages=q)
+        return(render_template("makersuite_gen_reply.html",r=r.last))
+    except Exception as e:
+        print(f"Error occurred: {e}")
+        return "An error occurred while processing your request. Please try again later.", 500
 
 if __name__ == "__main__":
     app.run()
