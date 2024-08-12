@@ -27,12 +27,6 @@ def makersuite_1():
     r = palm.chat(**model, messages=q)
     return(render_template("makersuite_1_reply.html",r=r.last))
 
-@app.route("/makersuite_gen",methods=["GET","POST"])
-def makersuite_gen():
-    q = request.form.get("q")
-    r = palm.chat(**model, messages=q)
-    return(render_template("makersuite_gen_reply.html",r=r.last))
-
 @app.route("/makersuite_gen", methods=["GET","POST"])
 def makersuite_gen():
     try:
