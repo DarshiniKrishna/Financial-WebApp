@@ -34,7 +34,7 @@ def makersuite_1():
         return render_template("makersuite_1_reply.html", r=response_text)
     except Exception as e:
         print(f"Error occurred: {e}")
-        return "An error occurred while processing your request. Please try again later.", 500
+        return "An error occurred while processing your request 1. Please try again later.", 500
 
 @app.route("/makersuite_gen", methods=["GET", "POST"])
 def makersuite_gen():
@@ -46,7 +46,7 @@ def makersuite_gen():
         return render_template("makersuite_gen_reply.html", r=response_text)
     except Exception as e:
         print(f"Error occurred: {e}")
-        return "An error occurred while processing your request. Please try again later.", 500
+        return "An error occurred while processing your request 2. Please try again later.", 500
 
 if __name__ == "__main__":
     app.run(debug=True)
