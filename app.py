@@ -10,19 +10,39 @@ if not api:
     raise ValueError("MAKERSUITE_API_TOKEN environment variable is not set")
 
 app = Flask(__name__)
+user_name = ""
+flag = 1
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/",methods=["GET","POST"])
 def index():
-    return render_template("index.html")
+    global flag
+    flag = 1
+    return(render_template("index.html"))
 
-@app.route("/main", methods=["GET", "POST"])
+@app.route("/main",methods=["GET","POST"])
 def main():
-    q = request.form.get("q")
-    return render_template("main.html", r=q)
+    global flag, user_name
+    if flag == 1:
+        user_name = request.form.get("q")
+        flag = 0 
+    return(render_template("main.html",r=user_name))
 
-@app.route("/makersuite", methods=["GET", "POST"])
+@app.route("/prediction",methods=["GET","POST"])
+def prediction():
+    return(render_template("prediction.html"))
+
+@app.route("/DBS",methods=["GET","POST"])
+def DBS():
+    return(render_template("DBS.html"))
+
+@app.route("/DBS_prediction",methods=["GET","POST"])
+def DBS_prediction():
+    q = float(request.form.get("q"))
+    return(render_template("DBS_prediction.html",r=90.2 + (-50.6*q)))
+
+@app.route("/makersuite",methods=["GET","POST"])
 def makersuite():
-    return render_template("makersuite.html")
+    return(render_template("makersuite.html"))
 
 @app.route("/makersuite_1", methods=["GET", "POST"])
 def makersuite_1():
