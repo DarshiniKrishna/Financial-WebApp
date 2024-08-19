@@ -31,6 +31,11 @@ def main():
 def prediction():
     return(render_template("prediction.html"))
 
+@app.route("/common_joke", methods=["GET", "POST"])
+def common_joke():
+    joke = "In Singapore, we don't need perfumes—we have durian. It’s nature’s way of saying, 'love me or leave me.'"
+    return render_template("common_joke.html", j=joke)
+
 @app.route("/DBS",methods=["GET","POST"])
 def DBS():
     return(render_template("DBS.html"))
