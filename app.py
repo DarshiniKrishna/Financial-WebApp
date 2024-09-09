@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import google.generativeai as palm
 import os
+import numpy as np
 
 api = os.getenv("MAKERSUITE_API_TOKEN")
 model = {"model": "models/chat-bison-001"}
