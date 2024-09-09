@@ -58,6 +58,16 @@ def creditability_prediction():
     r = str(r)
     return(render_template("creditability_prediction.html",r=r))
 
+@app.route("/text_sentiment",methods=["GET","POST"])
+def text_sentiment():
+    return(render_template("text_sentiment.html"))
+
+@app.route("/text_sentiment_result",methods=["GET","POST"])
+def text_sentiment_result():
+    q = request.form.get("q")
+    r = textblob.TextBlob(q).sentiment
+    return(render_template("text_sentiment_result.html",r=r))
+
 @app.route("/makersuite",methods=["GET","POST"])
 def makersuite():
     return(render_template("makersuite.html"))
