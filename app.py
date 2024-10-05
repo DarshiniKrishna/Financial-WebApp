@@ -4,9 +4,9 @@ import os
 import numpy as np
 import textblob
 
-#api = os.getenv("MAKERSUITE_API_TOKEN")
+api = os.getenv("MAKERSUITE_API_TOKEN")
 model = genai.GenerativeModel("gemini-1.5-flash")
-genai.configure(api_key="AIzaSyAmY5rxG-HRB-oo8V79n_cV9wAz8MTVTTQ")
+genai.configure(api_key=api)
 if not api:
     raise ValueError("MAKERSUITE_API_TOKEN environment variable is not set")
 
