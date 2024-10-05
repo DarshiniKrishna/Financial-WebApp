@@ -1,12 +1,12 @@
-from flask import Flask, render_template, request, jsonify
-import google.generativeai as palm
+from flask import Flask,render_template,request
+import google.generativeai as genai
 import os
 import numpy as np
+import textblob
 
-api = os.getenv("MAKERSUITE_API_TOKEN")
-model = {"model": "models/chat-bison-001"}
-palm.configure(api_key=api)
-
+#api = os.getenv("MAKERSUITE_API_TOKEN")
+model = genai.GenerativeModel("gemini-1.5-flash")
+genai.configure(api_key="AIzaSyAmY5rxG-HRB-oo8V79n_cV9wAz8MTVTTQ")
 if not api:
     raise ValueError("MAKERSUITE_API_TOKEN environment variable is not set")
 
@@ -22,20 +22,15 @@ def index():
 
 @app.route("/main",methods=["GET","POST"])
 def main():
-    global flag, user_name
-    if flag == 1:
+    global flag,user_name
+    if flag==1:
         user_name = request.form.get("q")
-        flag = 0 
+        flag = 0
     return(render_template("main.html",r=user_name))
 
 @app.route("/prediction",methods=["GET","POST"])
 def prediction():
     return(render_template("prediction.html"))
-
-@app.route("/common_joke", methods=["GET", "POST"])
-def common_joke():
-    joke = "In Singapore, we don't need perfumes—we have durian. It’s nature’s way of saying, 'love me or leave me.'"
-    return render_template("common_joke.html", j=joke)
 
 @app.route("/DBS",methods=["GET","POST"])
 def DBS():
@@ -72,29 +67,17 @@ def text_sentiment_result():
 def makersuite():
     return(render_template("makersuite.html"))
 
-@app.route("/makersuite_1", methods=["GET", "POST"])
+@app.route("/makersuite_1",methods=["GET","POST"])
 def makersuite_1():
-    try:
-        q = "Can you help me prepare my tax return?"
-        r = palm.chat(**model, messages=q)
-        print(f"API Response: {r}")
-        response_text = getattr(r, 'last', 'No response available')
-        return render_template("makersuite_1_reply.html", r=response_text)
-    except Exception as e:
-        print(f"Error occurred: {e}")
-        return "An error occurred while processing your request 1. Please try again later.", 500
+    q = "Can you help me prepare my tax return?"
+    r = model.generate_content(q)
+    return(render_template("makersuite_1_reply.html",r=r.text))
 
-@app.route("/makersuite_gen", methods=["GET", "POST"])
+@app.route("/makersuite_gen",methods=["GET","POST"])
 def makersuite_gen():
-    try:
-        q = request.form.get("q")
-        r = palm.chat(**model, messages=q)
-        print(f"API Response: {r}")
-        response_text = getattr(r, 'last', 'No response available')
-        return render_template("makersuite_gen_reply.html", r=response_text)
-    except Exception as e:
-        print(f"Error occurred: {e}")
-        return "An error occurred while processing your request 2. Please try again later.", 500
+    q = request.form.get("q")
+    r = model.generate_content(q)
+    return(render_template("makersuite_gen_reply.html",r=r.text))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
