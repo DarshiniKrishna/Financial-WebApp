@@ -63,6 +63,10 @@ def text_sentiment_result():
     r = textblob.TextBlob(q).sentiment
     return(render_template("text_sentiment_result.html",r=r))
 
+@app.route("/transfer_money",methods=["GET","POST"])
+def transfer_money():
+    return(render_template("transfer_money.html"))
+
 @app.route("/makersuite",methods=["GET","POST"])
 def makersuite():
     return(render_template("makersuite.html"))
